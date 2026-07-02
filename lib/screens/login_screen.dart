@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -12,18 +13,20 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  // دالة تسجيل الدخول
+  // دالة تسجيل الدخول بعد التعديل
   Future<void> _login() async {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
-      // إذا تم الدخول بنجاح، يمكنك الانتقال للصفحة الرئيسية هنا
+
+      // الانتقال إلى الصفحة الرئيسية عند نجاح الدخول
       if (mounted) {
-        ScaffoldMessenger.of(
+        Navigator.pushReplacement(
           context,
-        ).showSnackBar(const SnackBar(content: Text("تم تسجيل الدخول بنجاح!")));
+          MaterialPageRoute(builder: (context) => const HomeScreen()),
+        );
       }
     } catch (e) {
       // إظهار خطأ إذا فشل الدخول
